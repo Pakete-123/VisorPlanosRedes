@@ -1,0 +1,16 @@
+version: "3.8"
+services:
+  db:
+    image: postgres:16
+    container_name: antonioMachado_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: antonioMachado_web
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: Admin.1234!
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+volumes:
+  pgdata:

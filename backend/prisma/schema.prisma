@@ -1,0 +1,113 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url = env("DATABASE_URL")
+}
+// - ENUMS
+enum UserRole { 
+  ADMIN 
+  EDITOR
+  READER  
+  }
+
+enum DeviceState {
+  ACTIVE
+  RESERVE
+  BROKEN
+}
+
+enum DeviceType {
+  PC
+  SWITCH
+  RACK
+  AP_WIFI
+  PATCH_PANEL
+  PRINTER
+}
+
+enum CableType {
+  CAT6
+  CAT6A
+  FIBER
+  COAX
+}
+
+model User {
+  id String @id @default(uuid())
+  email String @unique
+  passwordHash String
+  name String
+  role UserRole @default(READER)
+  createdAt DateTime @default(now())
+  projects ProjectUser[]
+}
+
+model Project {
+  id String @id @default(uuid())
+  name String
+  createdAt DateTime @default(now())
+  floors Floor[]
+  users ProjectUser[]
+}
+
+model ProjectUser {
+  projectId String
+  userId String
+  role UserRole
+  project Project @relation(fields: [projectId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+  @@id([projectId, userId])
+}
+
+model Floor {
+  id String @id @default(uuid())
+  projectId String
+  name String
+  order Int @default(0)
+  floorPlanUrl String?
+  project Project @relation(fields: [projectId], references: [id])
+  devices Device[]
+  cables Cable[]
+}
+
+model Device {
+  id String @id @default(uuid())
+  floorId String
+  name String
+  type String
+  ip String?
+  mac String?
+  vlan Int?
+  switchPort Int?
+  state DeviceState @default(ACTIVE)
+  notes String?
+  posX Float @default(0)
+  posY Float @default(0)
+  posZ Float @default(0)
+  rotation Float @default(0)
+  floor Floor @relation(fields: [floorId], references: [id])
+  cablesFrom Cable[] @relation("CableFrom")
+  cablesTo Cable[] @relation("CableTo")
+}
+
+model Cable {
+  id String @id @default(uuid())
+  floorId String
+  fromDeviceId String
+  toDeviceId String
+  cableType CableType @default(CAT6)
+  vlan Int?
+  pathPoints Json?
+  label String?
+  floor Floor @relation(fields: [floorId], references: [id])
+  fromDevice Device @relation("CableFrom", fields: [fromDeviceId], references: [id])
+  toDevice Device @relation("CableTo", fields: [toDeviceId], references: [id])
+}
