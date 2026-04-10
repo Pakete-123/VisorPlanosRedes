@@ -29,7 +29,7 @@ export function LoginPage() {
         className="bg-gray-950 rounded-xl shadow-lg p-8 w-full max-w-sm flex flex-col gap-4"
       >
         <h1 className="text-2xl font-bold text-custom-blue text-center">
-          Visor de Planos
+          Visor de Planos de Red
         </h1>
         <p className="text-sm text-gray-500 text-center">
           Gestión de infraestructura de red

@@ -13,7 +13,7 @@ export async function exportPDF(
   // Cabecera
   pdf.setFontSize(14);
   pdf.setTextColor(26, 95, 168);
-  pdf.text(`Visor de Planos - ${projectName}`, 10, 12);
+  pdf.text(`Visor de Planos de Red - ${projectName}`, 10, 12);
 
   pdf.setFontSize(9);
   pdf.setTextColor(120);
