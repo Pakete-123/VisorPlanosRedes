@@ -55,6 +55,7 @@ model Project {
   name String
   createdAt DateTime @default(now())
   floors Floor[]
+  buildings Building[]
   users ProjectUser[]
 }
 
@@ -67,13 +68,29 @@ model ProjectUser {
   @@id([projectId, userId])
 }
 
+model Building {
+  id String @id @default(uuid())
+  projectId String
+  name String     // 'Principal', 'Infantil', 'Gimnasio'...
+  posX Float @default(0)
+  posY Float @default(0)
+  posZ Float @default(0)
+  projects Project @relation(fields: [projectId], references: [id])
+  floors Floor[]
+}
+
 model Floor {
   id String @id @default(uuid())
   projectId String
+  buildingId String?
   name String
   order Int @default(0)
-  floorPlanUrl String?
+  floorLevel Int @default(0)  // 0 = planta baja, 1 = primera planta...
+  floorPlanUrl String?        // ruta de la imagen PNG extraída del PDF
+  planWidth Float @default(0) // dimensiones originales del PDF en puntos
+  planHeight Float @default(0)
   project Project @relation(fields: [projectId], references: [id])
+  building Building? @relation(fields: [buildingId], references: [id])
   devices Device[]
   cables Cable[]
 }
