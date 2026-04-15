@@ -1,0 +1,23 @@
+-- AlterTable
+ALTER TABLE "Floor" ADD COLUMN     "buildingId" TEXT,
+ADD COLUMN     "floorLevel" INTEGER NOT NULL DEFAULT 0,
+ADD COLUMN     "planHeight" DOUBLE PRECISION NOT NULL DEFAULT 0,
+ADD COLUMN     "planWidth" DOUBLE PRECISION NOT NULL DEFAULT 0;
+
+-- CreateTable
+CREATE TABLE "Building" (
+    "id" TEXT NOT NULL,
+    "projectId" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "posX" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "posY" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "posZ" DOUBLE PRECISION NOT NULL DEFAULT 0,
+
+    CONSTRAINT "Building_pkey" PRIMARY KEY ("id")
+);
+
+-- AddForeignKey
+ALTER TABLE "Building" ADD CONSTRAINT "Building_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Floor" ADD CONSTRAINT "Floor_buildingId_fkey" FOREIGN KEY ("buildingId") REFERENCES "Building"("id") ON DELETE SET NULL ON UPDATE CASCADE;

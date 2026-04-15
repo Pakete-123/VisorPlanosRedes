@@ -2,10 +2,10 @@ version: "3.8"
 services:
   db:
     image: postgres:16
-    container_name: antonioMachado_postgres
+    container_name: visorplanosredes_postgres
     restart: unless-stopped
     environment:
-      POSTGRES_DB: antonioMachado_web
+      POSTGRES_DB: visorplanosredes_web
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: Admin.1234!
     ports:
