@@ -28,7 +28,7 @@ export function DeviceProperties({ device }: { device: Device }) {
       onSubmit={handleSubmit((d) => update.mutate(d))}
       className="flex flex-col gap-3 p-4 text-sm"
     >
-      <h2 className="font-bold text-base text-bigi-blue">Editar Dispositivo</h2>
+      <h2 className="font-bold text-base text-custom-blue">Editar Dispositivo</h2>
 
       <label className="font-medium">Nombre</label>
       <input {...register("name")} className="border rounded px-2 py-1" />
@@ -81,7 +81,7 @@ export function DeviceProperties({ device }: { device: Device }) {
 
       <button
         type="submit"
-        className="bg-bigi-blue text-white rounded py-1.5 font-medium hover:bg-blue-700 transition mt-1"
+        className="bg-custom-blue text-white rounded py-1.5 font-medium hover:bg-blue-700 transition mt-1"
       >
         Guardar cambios
       </button>

@@ -1,8 +1,7 @@
 import 'dotenv/config';
 import * as bcrypt from 'bcrypt';
 import { PrismaPg } from '@prisma/adapter-pg';
-import { PrismaClient } from 'src/generated/prisma/client';
-import { error } from 'node:console';
+import { PrismaClient } from '../src/generated/prisma/client';
 
 const connectionString = process.env.DATABASE_URL;
 if (!connectionString) {
@@ -16,7 +15,7 @@ const prisma = new PrismaClient({
 async function main() {
   const adminHash = await bcrypt.hash('Admin1234!', 10);
 
-  const admin = await prisma.user.upsert({
+  await prisma.user.upsert({
     where: { email: 'admin@demo.com' },
     update: {},
     create: {

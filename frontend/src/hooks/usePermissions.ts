@@ -3,7 +3,7 @@ import { useAuthStore } from "../stores/useAuthStore";
 export function usePermissions() {
   const role = useAuthStore((s) => s.user?.role);
   return {
-    canEdit: role === "ADMIN" || role === "EDITOR",
+    canEdit: role === "ADMIN" || role === "USER",
     canDelete: role === "ADMIN",
     canManageUsers: role === "ADMIN",
     canExport: true,
