@@ -8,3 +8,4 @@ dist
 md
 .agents
 skills-lock.json
+*.tsbuildinfo
