@@ -1,17 +1,35 @@
+import { JwtService } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
+import { PrismaService } from '../prisma/prisma.service';
 import { AuthService } from './auth.service';
-
+jest.mock('../prisma/prisma.service', () => ({
+  PrismaService: class PrismaServiceMock {},
+}));
 describe('AuthService', () => {
   let service: AuthService;
-
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [AuthService],
+      providers: [
+        AuthService,
+        {
+          provide: PrismaService,
+          useValue: {
+            user: {
+              findUnique: jest.fn(),
+              create: jest.fn(),
+            },
+          },
+        },
+        {
+          provide: JwtService,
+          useValue: {
+            sign: jest.fn(() => 'token'),
+          },
+        },
+      ],
     }).compile();
-
     service = module.get<AuthService>(AuthService);
   });
-
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
