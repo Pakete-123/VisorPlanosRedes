@@ -5,17 +5,26 @@ import { api } from "../../api/client";
 interface Device {
   id: string;
   name: string;
-  ip?: string;
-  mac?: string;
-  vlan?: number;
-  switchPort?: number;
+  ip?: string | null;
+  mac?: string | null;
+  vlan?: number | null;
+  switchPort?: number | null;
   state: "ACTIVE" | "RESERVE" | "BROKEN";
-  notes?: string;
+  notes?: string | null;
 }
 
 export function DeviceProperties({ device }: { device: Device }) {
   const queryClient = useQueryClient();
-  const { register, handleSubmit } = useForm<Device>({ defaultValues: device });
+  const { register, handleSubmit } = useForm<Device>({
+    defaultValues: {
+      ...device,
+      ip: device.ip ?? "",
+      mac: device.mac ?? "",
+      vlan: device.vlan ?? undefined,
+      switchPort: device.switchPort ?? undefined,
+      notes: device.notes ?? "",
+    },
+  });
 
   const update = useMutation({
     mutationFn: (data: Partial<Device>) =>
@@ -28,7 +37,9 @@ export function DeviceProperties({ device }: { device: Device }) {
       onSubmit={handleSubmit((d) => update.mutate(d))}
       className="flex flex-col gap-3 p-4 text-sm"
     >
-      <h2 className="font-bold text-base text-custom-blue">Editar Dispositivo</h2>
+      <h2 className="font-bold text-base text-custom-blue">
+        Editar Dispositivo
+      </h2>
 
       <label className="font-medium">Nombre</label>
       <input {...register("name")} className="border rounded px-2 py-1" />
