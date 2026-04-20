@@ -8,7 +8,9 @@ import {
   UploadedFile,
   UseInterceptors,
   BadRequestException,
+  UseGuards,
 } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { FloorsService } from './floors.service';
@@ -31,6 +33,7 @@ class PositionDto {
 }
 
 @Controller('projects/:projectId/floors')
+@UseGuards(JwtAuthGuard)
 export class FloorsController {
   constructor(
     private floorsService: FloorsService,

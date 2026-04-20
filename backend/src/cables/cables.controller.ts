@@ -1,4 +1,13 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CablesService } from './cables.service';
 class CreateCableDto {
   fromDeviceId!: string;
@@ -9,6 +18,7 @@ class CreateCableDto {
   label?: string;
 }
 @Controller()
+@UseGuards(JwtAuthGuard)
 export class CablesController {
   constructor(private readonly cablesService: CablesService) {}
   @Get('projects/:projectId/floors/:floorId/cables')

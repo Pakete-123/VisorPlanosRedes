@@ -6,7 +6,9 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { DevicesService } from './devices.service';
 
 class CreateDeviceDto {
@@ -44,6 +46,7 @@ class UpdatePositionDto {
 }
 
 @Controller()
+@UseGuards(JwtAuthGuard)
 export class DevicesController {
   constructor(private readonly devicesService: DevicesService) {}
 
