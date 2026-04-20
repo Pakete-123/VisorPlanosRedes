@@ -47,7 +47,7 @@ class UpdatePositionDto {
 export class DevicesController {
   constructor(private readonly devicesService: DevicesService) {}
 
-  @Get('projects/:projectsId/floors/:floorId/devices')
+  @Get('projects/:projectId/floors/:floorId/devices')
   getDevicesByFloor(
     @Param('projectId') projectId: string,
     @Param('floorId') floorId: string,
@@ -64,7 +64,7 @@ export class DevicesController {
     return this.devicesService.create(projectId, floorId, dto);
   }
 
-  @Patch('device/:deviceId')
+  @Patch('devices/:deviceId')
   updateDevice(
     @Param('deviceId') deviceId: string,
     @Body() dto: UpdateDeviceDto,
@@ -72,7 +72,7 @@ export class DevicesController {
     return this.devicesService.update(deviceId, dto);
   }
 
-  @Patch('device/:deviceId/position')
+  @Patch('devices/:deviceId/position')
   updateDevicePosition(
     @Param('deviceId') deviceId: string,
     @Body() dto: UpdatePositionDto,
